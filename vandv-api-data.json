@@ -1,0 +1,966 @@
+{
+  "Credential": [
+    {
+      "Implement API": "Endpoint Type",
+      "__EMPTY_1": "HTTP/REST Endpoint"
+    },
+    {
+      "Implement API": "Development HTTPS URL",
+      "__EMPTY_1": "https://soapbeta.streamflow.ca/vandvapi/"
+    },
+    {
+      "Implement API": "Production HTTPS URL",
+      "__EMPTY_1": "https://soap.streamflow.ca/vandvapi/"
+    },
+    {
+      "__EMPTY": "URL Information"
+    },
+    {
+      "__EMPTY": "API Name",
+      "__EMPTY_1": "Production",
+      "__EMPTY_2": "Development"
+    },
+    {
+      "__EMPTY": "GetPartsInfo",
+      "__EMPTY_1": "https://soap.streamflow.ca/vandvapi/GetPartsInfo",
+      "__EMPTY_2": "https://soapbeta.streamflow.ca/vandvapi/GetPartsInfo"
+    },
+    {
+      "__EMPTY": "CreatePartOrder",
+      "__EMPTY_1": "https://soap.streamflow.ca/vandvapi/CreatePartOrder",
+      "__EMPTY_2": "https://soapbeta.streamflow.ca/vandvapi/CreatePartOrder"
+    }
+  ],
+  "API Layout": [
+    {
+      "Category": "Parts Order",
+      "API Name": "GetPartsInfo",
+      "Description": "Get the parts detail information"
+    },
+    {
+      "API Name": "CreatePartOrder",
+      "Description": "Create parts purchase order"
+    },
+    {
+      "Category": "Category",
+      "API Name": "retCode",
+      "Description": "retMsg"
+    },
+    {
+      "Category": "Error Messages",
+      "API Name": 201,
+      "Description": "Invalid Token or Username/Password",
+      "__EMPTY": "GetPartsInfo",
+      "__EMPTY_1": "CreatePartOrder"
+    },
+    {
+      "API Name": 202,
+      "Description": "Duplicate Order",
+      "__EMPTY_1": "CreatePartOrder"
+    },
+    {
+      "API Name": 210,
+      "Description": "Invalid Part",
+      "__EMPTY": "GetPartsInfo",
+      "__EMPTY_1": "CreatePartOrder"
+    },
+    {
+      "API Name": 211,
+      "Description": "Invalid mfgCode",
+      "__EMPTY": "GetPartsInfo",
+      "__EMPTY_1": "CreatePartOrder"
+    },
+    {
+      "API Name": 220,
+      "Description": "Part Not Available for Sale",
+      "__EMPTY": "GetPartsInfo",
+      "__EMPTY_1": "CreatePartOrder"
+    },
+    {
+      "API Name": 230,
+      "Description": "Order does not exist"
+    },
+    {
+      "API Name": 231,
+      "Description": "Order can not be cancelled"
+    },
+    {
+      "API Name": 232,
+      "Description": "Invalid Shipping Method",
+      "__EMPTY_1": "CreatePartOrder"
+    },
+    {
+      "API Name": 233,
+      "Description": "Order has been cancelled"
+    },
+    {
+      "API Name": 300,
+      "Description": "See line remark",
+      "__EMPTY_1": "CreatePartOrder"
+    }
+  ],
+  "GetPartsInfo": [
+    {
+      "Client API": "GetPartsInfo ",
+      "TYPE\r\n(Request/Response)": "Request",
+      "Level 2\r\n(Structure, Table)": "commonHeader\r\n(Structure)",
+      "Property": "user",
+      "data type": "CHAR",
+      "length": 25,
+      "decimals": " ",
+      "Description": "User",
+      "Required": "Mandatory",
+      "Sample data": " "
+    },
+    {
+      "Property": "password",
+      "data type": "CHAR",
+      "length": 25,
+      "decimals": " ",
+      "Description": "Password",
+      "Required": "Mandatory",
+      "Sample data": " "
+    },
+    {
+      "Level 2\r\n(Structure, Table)": "mfgCode",
+      "Property": "mfgCode",
+      "data type": "CHAR",
+      "length": 18,
+      "decimals": " ",
+      "Description": "Manufacturer Code",
+      "Required": "Mandatory",
+      "Option1": " ",
+      "Sample data": "SAM "
+    },
+    {
+      "Level 2\r\n(Structure, Table)": "partNumber",
+      "Property": "partNumber",
+      "data type": "CHAR",
+      "length": 18,
+      "decimals": " ",
+      "Description": "Parts Number",
+      "Required": "Mandatory",
+      "Option1": " ",
+      "Sample data": "BN94-10751C"
+    },
+    {
+      "TYPE\r\n(Request/Response)": "Response",
+      "Level 1 entity\r\n(Adress)": "Return",
+      "Level 2\r\n(Structure, Table)": "commonResult\r\n(Structure)",
+      "Property": "code",
+      "data type": "CHAR",
+      "length": 10,
+      "Description": "Code"
+    },
+    {
+      "Property": "codeDesc",
+      "data type": "CHAR",
+      "length": 25,
+      "Description": "Code Description"
+    },
+    {
+      "Property": "msgID",
+      "data type": "CHAR",
+      "length": 5,
+      "decimals": " ",
+      "Description": "Message ID",
+      "Sample data": " "
+    },
+    {
+      "Level 2\r\n(Structure, Table)": " ",
+      "Property": "retCode",
+      "data type": "CHAR",
+      "length": 10,
+      "decimals": 0,
+      "Description": "Return Code"
+    },
+    {
+      "Level 2\r\n(Structure, Table)": " ",
+      "Property": "retMsg",
+      "data type": "CHAR",
+      "length": 200,
+      "decimals": 0,
+      "Description": "Return Error Message"
+    },
+    {
+      "Level 2\r\n(Structure, Table)": "partData\r\n(Structure)",
+      "Property": "partNumber",
+      "data type": "CHAR",
+      "length": 25,
+      "decimals": " ",
+      "Description": "Parts Number",
+      "Sample data": "BN94-10751C"
+    },
+    {
+      "Property": "mfgCode",
+      "data type": "CHAR",
+      "length": 3,
+      "decimals": " ",
+      "Description": "Manufacturer Code"
+    },
+    {
+      "Property": "subbed",
+      "data type": "CHAR",
+      "length": 1,
+      "decimals": " ",
+      "Description": "Substitution Part Available"
+    },
+    {
+      "Property": "partDescription",
+      "data type": "CHAR",
+      "length": 40,
+      "decimals": " ",
+      "Description": "Part Description"
+    },
+    {
+      "Property": "quantityOnHand",
+      "data type": "CHAR",
+      "length": 9,
+      "decimals": 0,
+      "Description": "Quantity on Hand"
+    },
+    {
+      "Property": "retailPrice",
+      "data type": "CHAR",
+      "length": 9,
+      "decimals": 0,
+      "Description": "Retail Price"
+    },
+    {
+      "Property": "partPrice",
+      "data type": "CHAR",
+      "length": 9,
+      "decimals": 0,
+      "Description": "Part Price"
+    },
+    {
+      "Property": "corePrice",
+      "data type": "CHAR",
+      "length": 9,
+      "decimals": 0,
+      "Description": "Core Price"
+    },
+    {
+      "Property": "totalPrice",
+      "data type": "CHAR",
+      "length": 9,
+      "decimals": 0,
+      "Description": "Total Price"
+    },
+    {
+      "Property": "discontinued",
+      "data type": "CHAR",
+      "length": 1,
+      "Description": "Discontinued flag",
+      "Required": "Blanks"
+    },
+    {
+      "Property": "dropShipOnly",
+      "data type": "CHAR",
+      "length": 1,
+      "Description": "DropShipOnly flag",
+      "Required": "Blanks"
+    },
+    {
+      "Property": "refrigerant",
+      "data type": "CHAR",
+      "length": 1,
+      "Description": "Refrigerant flag",
+      "Required": "Blanks"
+    },
+    {
+      "Property": "hazmat",
+      "data type": "CHAR",
+      "length": 1,
+      "Description": "Hazmat flag",
+      "Required": "Blanks"
+    },
+    {
+      "Property": "oversize",
+      "data type": "CHAR",
+      "length": 1,
+      "Description": "Oversize flag",
+      "Required": "Mandatory",
+      "Sample data": "1=true; 0=false"
+    },
+    {
+      "Level 3\r\n(Structure, Table)": "availableLocation (Structure)",
+      "Property": "locationId",
+      "data type": "CHAR",
+      "length": 10,
+      "decimals": " ",
+      "Description": "Location ID"
+    },
+    {
+      "Property": "countryCode",
+      "data type": "CHAR",
+      "length": 10,
+      "decimals": " ",
+      "Description": "Country Code"
+    },
+    {
+      "Property": "locationName",
+      "data type": "CHAR",
+      "length": 25,
+      "Description": "Location Name"
+    },
+    {
+      "Property": "availableQuantity",
+      "data type": "CHAR",
+      "length": 9,
+      "decimals": 0,
+      "Description": "Available Quantity"
+    },
+    {
+      "Level 1 entity\r\n(Adress)": "subPartData\r\n(Table)",
+      "Property": "partNumber",
+      "data type": "CHAR",
+      "length": 25,
+      "decimals": " ",
+      "Description": "Parts Number",
+      "Sample data": "BN94-10751C"
+    },
+    {
+      "Property": "mfgCode",
+      "data type": "CHAR",
+      "length": 3,
+      "decimals": " ",
+      "Description": "Manufacturer Code"
+    },
+    {
+      "Property": "subbed",
+      "data type": "CHAR",
+      "length": 1,
+      "decimals": " ",
+      "Description": "Substitution Part Available"
+    },
+    {
+      "Property": "partDescription",
+      "data type": "CHAR",
+      "length": 40,
+      "decimals": " ",
+      "Description": "Part Description"
+    },
+    {
+      "Property": "quantityOnHand",
+      "data type": "CHAR",
+      "length": 9,
+      "decimals": 0,
+      "Description": "Quantity on Hand"
+    },
+    {
+      "Property": "retailPrice",
+      "data type": "CHAR",
+      "length": 9,
+      "decimals": 0,
+      "Description": "Retail Price"
+    },
+    {
+      "Property": "partPrice",
+      "data type": "CHAR",
+      "length": 9,
+      "decimals": 0,
+      "Description": "Part Price"
+    },
+    {
+      "Property": "corePrice",
+      "data type": "CHAR",
+      "length": 9,
+      "decimals": 0,
+      "Description": "Core Price"
+    },
+    {
+      "Property": "totalPrice",
+      "data type": "CHAR",
+      "length": 9,
+      "decimals": 0,
+      "Description": "Total Price"
+    },
+    {
+      "Property": "discontinued",
+      "data type": "CHAR",
+      "length": 1,
+      "Description": "Discontinued flag",
+      "Required": "Blanks"
+    },
+    {
+      "Property": "dropShipOnly",
+      "data type": "CHAR",
+      "length": 1,
+      "Description": "DropShipOnly flag",
+      "Required": "Blanks"
+    },
+    {
+      "Property": "refrigerant",
+      "data type": "CHAR",
+      "length": 1,
+      "Description": "Refrigerant flag",
+      "Required": "Blanks"
+    },
+    {
+      "Property": "hazmat",
+      "data type": "CHAR",
+      "length": 1,
+      "Description": "Hazmat flag",
+      "Required": "Blanks"
+    },
+    {
+      "Property": "oversize",
+      "data type": "CHAR",
+      "length": 1,
+      "Description": "Oversize flag",
+      "Required": "Mandatory",
+      "Sample data": "1=true; 0=false"
+    },
+    {
+      "Level 2\r\n(Structure, Table)": "availableLocation (Structure)",
+      "Property": "locationId",
+      "data type": "CHAR",
+      "length": 10,
+      "decimals": " ",
+      "Description": "Location ID"
+    },
+    {
+      "Property": "countryCode",
+      "data type": "CHAR",
+      "length": 10,
+      "decimals": " ",
+      "Description": "Country Code"
+    },
+    {
+      "Property": "locationName",
+      "data type": "CHAR",
+      "length": 25,
+      "Description": "Location Name"
+    },
+    {
+      "Property": "availableQuantity",
+      "data type": "CHAR",
+      "length": 9,
+      "decimals": 0,
+      "Description": "Available Quantity"
+    }
+  ],
+  "CreatePartOrder": [
+    {
+      "TYPE": "(Request/Response)",
+      "Level 1 entity": "(Adress)",
+      "Level 2": "(Structure, Table)"
+    },
+    {
+      "Client API": "CreatePartOrder",
+      "TYPE": "Request",
+      "Level 1 entity": "ImportSet",
+      "Level 2": "commonHeader",
+      "Property": "user",
+      "data type": "CHAR",
+      "length": 25,
+      "decimals": " ",
+      "Description": "User",
+      "Required": "Mandatory",
+      "Sample data": " "
+    },
+    {
+      "Level 2": "(Structure)",
+      "Property": "password",
+      "data type": "CHAR",
+      "length": 25,
+      "decimals": " ",
+      "Description": "Password",
+      "Required": "Mandatory",
+      "Sample data": " "
+    },
+    {
+      "Level 2": "poHeader (Structure)",
+      "Property": "poNumber",
+      "data type": "CHAR",
+      "length": 18,
+      "decimals": 0,
+      "Description": "Part Order Number",
+      "Required": "Mandatory",
+      "Option1": " ",
+      "Sample data": 1231231360
+    },
+    {
+      "Property": "shippingMethod",
+      "data type": "CHAR",
+      "length": 2,
+      "decimals": 0,
+      "Description": "Shipping Method",
+      "Required": "Mandatory",
+      "Sample data": "UPS"
+    },
+    {
+      "Description": "================"
+    },
+    {
+      "Description": "UPS: FedEx Ground"
+    },
+    {
+      "Description": "UP2: FedEx 2nd day air"
+    },
+    {
+      "Description": "UP1: FedEx Overnight"
+    },
+    {
+      "Property": "shipFrom",
+      "data type": "INT",
+      "length": 3,
+      "decimals": 0,
+      "Description": "Location to Ship Order From",
+      "Sample data": 101
+    },
+    {
+      "Property": "poType",
+      "data type": "CHAR",
+      "length": 1,
+      "decimals": 0,
+      "Description": "PO Type",
+      "Sample data": 1
+    },
+    {
+      "Description": "========"
+    },
+    {
+      "Description": "1: Stock Keeping"
+    },
+    {
+      "Description": "2: Pending Repair"
+    },
+    {
+      "Description": "5: Forecasting"
+    },
+    {
+      "Level 2": "shipAddress",
+      "Property": "addressFlag",
+      "data type": "CHAR",
+      "length": 1,
+      "decimals": 0,
+      "Description": "Change ship to address for this oder Flag",
+      "Sample data": "Y"
+    },
+    {
+      "Level 2": "(Structure)",
+      "Property": "customerName",
+      "data type": "CHAR",
+      "length": 40,
+      "decimals": 0,
+      "Description": "Name",
+      "Required": "Mandatory",
+      "Sample data": " HOME SERVICE NETWORK"
+    },
+    {
+      "Property": "address",
+      "data type": "CHAR",
+      "length": 40,
+      "decimals": 0,
+      "Description": "Street",
+      "Required": "Mandatory",
+      "Sample data": "49 COMMERCE RD"
+    },
+    {
+      "Property": "city",
+      "data type": "CHAR",
+      "length": 40,
+      "decimals": 0,
+      "Description": "City",
+      "Required": "Mandatory",
+      "Sample data": "CARLSTADT"
+    },
+    {
+      "Property": "zipCode",
+      "data type": "CHAR",
+      "length": 10,
+      "decimals": 0,
+      "Description": "Zip/Postal Code ",
+      "Required": "Mandatory",
+      "Sample data": "NJ"
+    },
+    {
+      "Property": "state",
+      "data type": "CHAR",
+      "length": 10,
+      "decimals": 0,
+      "Description": "State/Province ",
+      "Required": "Mandatory",
+      "Sample data": 12312
+    },
+    {
+      "Property": "phoneNumber",
+      "data type": "CHAR",
+      "length": 40,
+      "decimals": 0,
+      "Description": "Contact Phone ",
+      "Sample data": 321548956
+    },
+    {
+      "Property": "emailAddress",
+      "data type": "CHAR",
+      "length": 200,
+      "decimals": 0,
+      "Description": "Email Address"
+    },
+    {
+      "Level 1 entity": "poItems",
+      "Level 2": "poItems",
+      "Property": "partNumber",
+      "data type": "CHAR",
+      "length": 18,
+      "decimals": " ",
+      "Description": "Parts Number",
+      "Required": "Mandatory",
+      "Option1": " ",
+      "Sample data": "ASDFTWSDF1234"
+    },
+    {
+      "Level 1 entity": "(Table)",
+      "Level 2": "(Table)",
+      "Property": "mfgCode",
+      "data type": "CHAR",
+      "length": 18,
+      "decimals": " ",
+      "Description": "Manufacturing Cod",
+      "Required": "Mandatory",
+      "Option1": " ",
+      "Sample data": "SAM"
+    },
+    {
+      "Property": "orderQuantity",
+      "data type": "CHAR",
+      "length": 9,
+      "decimals": 0,
+      "Description": "Quantity",
+      "Required": "Mandatory",
+      "Option1": " ",
+      "Sample data": 1
+    },
+    {
+      "Property": "lineNote",
+      "data type": "CHAR",
+      "length": 255,
+      "Description": "Line Level PO # / Note / Identifier"
+    },
+    {
+      "TYPE": "Response",
+      "Level 1 entity": "ExportSet",
+      "Level 2": "commonResult",
+      "Property": "code",
+      "data type": "CHAR",
+      "length": 10,
+      "Description": "Code",
+      "Required": "Mandatory"
+    },
+    {
+      "Level 1 entity": "(Return)",
+      "Level 2": "(Structure)",
+      "Property": "codeDesc",
+      "data type": "CHAR",
+      "length": 25,
+      "Description": "Code Description",
+      "Required": "Mandatory"
+    },
+    {
+      "Property": "msgID",
+      "data type": "CHAR",
+      "length": 5,
+      "decimals": " ",
+      "Description": "Message ID",
+      "Sample data": " "
+    },
+    {
+      "Level 2": " ",
+      "Property": "retCode",
+      "data type": "CHAR",
+      "length": 10,
+      "decimals": 0,
+      "Description": "Return Code",
+      "Required": "Mandatory"
+    },
+    {
+      "Level 2": " ",
+      "Property": "retMsg",
+      "data type": "CHAR",
+      "length": 200,
+      "decimals": 0,
+      "Description": "Return Error Message",
+      "Required": "Mandatory"
+    },
+    {
+      "Level 1 entity": "PoResult",
+      "Level 2": "poResult",
+      "Property": "returnFlag",
+      "data type": "CHAR",
+      "length": 5,
+      "decimals": 0,
+      "Description": "ReturnFlag",
+      "Sample data": 0
+    },
+    {
+      "Level 1 entity": "(Table)",
+      "Level 2": "(Table)",
+      "Property": "poDate ",
+      "data type": "CHAR",
+      "length": 8,
+      "decimals": 0,
+      "Description": "PO Date ",
+      "Required": "Mandatory",
+      "Sample data": 20201102
+    },
+    {
+      "Property": "shipToBranch",
+      "data type": "CHAR",
+      "length": 10,
+      "decimals": 0,
+      "Description": "Ship-to-Branch",
+      "Sample data": 123123136
+    },
+    {
+      "Property": "poNo",
+      "data type": "CHAR",
+      "length": 14,
+      "decimals": " ",
+      "Description": "Customer  Part Order Number",
+      "Required": "Mandatory",
+      "Sample data": "123456789-000"
+    },
+    {
+      "Property": "poItemNo",
+      "data type": "CHAR",
+      "length": 10,
+      "decimals": 0,
+      "Description": "Item Number of the Underlying Purchase Order",
+      "Required": "essential ",
+      "Sample data": 10
+    },
+    {
+      "Property": "orderedParts",
+      "data type": "CHAR",
+      "length": 35,
+      "decimals": 0,
+      "Description": "Ordered Parts",
+      "Required": "Mandatory",
+      "Sample data": "GH97-06308A"
+    },
+    {
+      "Property": "opMfgCode",
+      "data type": "CHAR",
+      "length": 3,
+      "Description": "Ordered Manufacturing Code",
+      "Required": "Mandatory"
+    },
+    {
+      "Property": "shippedParts ",
+      "data type": "CHAR",
+      "length": 35,
+      "decimals": 0,
+      "Description": "Shipped Parts ",
+      "Required": " ",
+      "Sample data": "GH97-06308A"
+    },
+    {
+      "Property": "spMfgCode",
+      "data type": "CHAR",
+      "length": 3,
+      "Description": "Shipped Manufacturing Code",
+      "Required": " "
+    },
+    {
+      "Property": "vOrderNo",
+      "data type": "CHAR",
+      "length": 25,
+      "decimals": 0,
+      "Description": "Vendor Order Number",
+      "Required": "Mandatory",
+      "Sample data": 100021563
+    },
+    {
+      "Property": "poQty ",
+      "data type": "CHAR",
+      "length": 15,
+      "decimals": 0,
+      "Description": "P/O Qty ",
+      "Required": "Mandatory",
+      "Sample data": 1
+    },
+    {
+      "Property": "description",
+      "data type": "CHAR",
+      "length": 60,
+      "decimals": 0,
+      "Description": "Description",
+      "Sample data": "MEA-LCD MODULE KIT;SGH-D900,DTM,GERM,LCD"
+    },
+    {
+      "Property": "remark",
+      "data type": "CHAR",
+      "length": 100,
+      "Description": "Line Level Message"
+    },
+    {
+      "Property": "ETA",
+      "data type": "CHAR",
+      "length": 100,
+      "Description": "Estimated Time of Arrival",
+      "Required": "essential "
+    },
+    {
+      "Property": "shipFromLocation",
+      "data type": "CHAR",
+      "length": 15,
+      "decimals": 0,
+      "Description": "Ship From Location Number",
+      "Required": "essential "
+    },
+    {
+      "Property": "shipFrom",
+      "data type": "CHAR",
+      "length": 60,
+      "decimals": 0,
+      "Description": "Ship From Location Name",
+      "Required": "essential "
+    },
+    {
+      "Property": "shippingMethod",
+      "data type": "CHAR",
+      "length": 100,
+      "Description": "Shipping Method",
+      "Required": "essential "
+    },
+    {
+      "Description": "================"
+    },
+    {
+      "Description": "UPS: FedEx Ground"
+    },
+    {
+      "Description": "UP2: FedEx 2nd day air"
+    },
+    {
+      "Description": "UP1: FedEx Overnight"
+    },
+    {
+      "Property": "unitPrice",
+      "data type": "DEC",
+      "length": 28,
+      "decimals": 6,
+      "Description": "Unit Price(Tax is not included) ",
+      "Required": "essential ",
+      "Sample data": 27.29
+    },
+    {
+      "Property": "amount",
+      "data type": "DEC",
+      "length": 28,
+      "decimals": 6,
+      "Description": "Amount",
+      "Sample data": 27.29
+    },
+    {
+      "Property": "qtyShipped",
+      "data type": "CHAR",
+      "length": 28,
+      "decimals": 6,
+      "Description": "Qty Being Shipped"
+    },
+    {
+      "Property": "qtyBackordered",
+      "data type": "CHAR",
+      "length": 28,
+      "decimals": 6,
+      "Description": "Qty on Backorder"
+    },
+    {
+      "Property": "partPrice",
+      "data type": "CHAR",
+      "length": 28,
+      "decimals": 6,
+      "Description": "Price to Customer"
+    },
+    {
+      "Property": "retailPrice",
+      "data type": "CHAR",
+      "length": 28,
+      "decimals": 6,
+      "Description": "Retail Price"
+    },
+    {
+      "Property": "corePrice",
+      "data type": "CHAR",
+      "length": 28,
+      "decimals": 6,
+      "Description": "Core Price if Available"
+    },
+    {
+      "Property": "stockStatus",
+      "data type": "CHAR",
+      "length": 1,
+      "decimals": 0,
+      "Description": "Stock status",
+      "Sample data": "N"
+    }
+  ],
+  "Error Messages": [
+    {
+      "Category": "Error Messages",
+      "retCode": 201,
+      "retMsg": "Invalid Token or Username/Password",
+      "__EMPTY": "GetPartsInfo",
+      "__EMPTY_1": "CreatePartOrder",
+      "__EMPTY_2": "GetPartOrderInfo",
+      "__EMPTY_3": "CancelPartOrder"
+    },
+    {
+      "retCode": 202,
+      "retMsg": "Duplicate Order",
+      "__EMPTY_1": "CreatePartOrder"
+    },
+    {
+      "retCode": 210,
+      "retMsg": "Invalid Part",
+      "__EMPTY": "GetPartsInfo",
+      "__EMPTY_1": "CreatePartOrder"
+    },
+    {
+      "retCode": 211,
+      "retMsg": "Invalid mfgCode",
+      "__EMPTY": "GetPartsInfo",
+      "__EMPTY_1": "CreatePartOrder"
+    },
+    {
+      "retCode": 220,
+      "retMsg": "Part Not Available for Sale",
+      "__EMPTY": "GetPartsInfo",
+      "__EMPTY_1": "CreatePartOrder"
+    },
+    {
+      "retCode": 230,
+      "retMsg": "Order does not exist",
+      "__EMPTY_2": "GetPartOrderInfo",
+      "__EMPTY_3": "CancelPartOrder"
+    },
+    {
+      "retCode": 231,
+      "retMsg": "Order can not be cancelled",
+      "__EMPTY_3": "CancelPartOrder"
+    },
+    {
+      "retCode": 232,
+      "retMsg": "Invalid Shipping Method",
+      "__EMPTY_1": "CreatePartOrder"
+    },
+    {
+      "retCode": 233,
+      "retMsg": "Order has been cancelled",
+      "__EMPTY_3": "CancelPartOrder"
+    },
+    {
+      "retCode": 234,
+      "retMsg": "Invalid Ship From Location Code"
+    },
+    {
+      "retCode": 300,
+      "retMsg": "See line remark",
+      "__EMPTY_1": "CreatePartOrder"
+    }
+  ]
+}

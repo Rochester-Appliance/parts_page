@@ -1,0 +1,83 @@
+{
+  "MAV6000AWQ": [
+    {
+      "sectionName": "01 - Base",
+      "diagramId": 525454,
+      "diagramSmallImage": "https://www.vvapplianceparts.com/diagram/2/0/00036567/125/150",
+      "diagramLargeImage": "https://www.vvapplianceparts.com/diagram/2/0/00036567/680/900",
+      "partsCount": 39
+    },
+    {
+      "sectionName": "02 - Cabinet",
+      "diagramId": 525456,
+      "diagramSmallImage": "https://www.vvapplianceparts.com/diagram/2/0/00036568/125/150",
+      "diagramLargeImage": "https://www.vvapplianceparts.com/diagram/2/0/00036568/680/900",
+      "partsCount": 38
+    },
+    {
+      "sectionName": "03 - Control Panel",
+      "diagramId": 525457,
+      "diagramSmallImage": "https://www.vvapplianceparts.com/diagram/2/0/00036588/125/150",
+      "diagramLargeImage": "https://www.vvapplianceparts.com/diagram/2/0/00036588/680/900",
+      "partsCount": 28
+    },
+    {
+      "sectionName": "04 - Top",
+      "diagramId": 525459,
+      "diagramSmallImage": "https://www.vvapplianceparts.com/diagram/2/0/00036573/125/150",
+      "diagramLargeImage": "https://www.vvapplianceparts.com/diagram/2/0/00036573/680/900",
+      "partsCount": 14
+    },
+    {
+      "sectionName": "05 - Transmission",
+      "diagramId": 525460,
+      "diagramSmallImage": "https://www.vvapplianceparts.com/diagram/2/0/00005597/125/150",
+      "diagramLargeImage": "https://www.vvapplianceparts.com/diagram/2/0/00005597/680/900",
+      "partsCount": 31
+    },
+    {
+      "sectionName": "06 - Tub",
+      "diagramId": 525461,
+      "diagramSmallImage": "https://www.vvapplianceparts.com/diagram/2/0/00036570/125/150",
+      "diagramLargeImage": "https://www.vvapplianceparts.com/diagram/2/0/00036570/680/900",
+      "partsCount": 15
+    },
+    {
+      "sectionName": "07 - Wiring Information",
+      "diagramId": 525465,
+      "diagramSmallImage": "https://www.vvapplianceparts.com/diagram/2/0/00036589/125/150",
+      "diagramLargeImage": "https://www.vvapplianceparts.com/diagram/2/0/00036589/680/900",
+      "partsCount": 1
+    }
+  ],
+  "WTW5000DW": [
+    {
+      "sectionName": "02 - Control Panel",
+      "diagramId": 51871,
+      "diagramSmallImage": "https://www.vvapplianceparts.com/diagram/1/0/00004564/125/150",
+      "diagramLargeImage": "https://www.vvapplianceparts.com/diagram/1/0/00004564/680/900",
+      "partsCount": 2
+    },
+    {
+      "sectionName": "03 - Door Parts",
+      "diagramId": 51872,
+      "diagramSmallImage": "https://www.vvapplianceparts.com/diagram/1/0/00004565/125/150",
+      "diagramLargeImage": "https://www.vvapplianceparts.com/diagram/1/0/00004565/680/900",
+      "partsCount": 8
+    },
+    {
+      "sectionName": "04 - Power Control",
+      "diagramId": 51873,
+      "diagramSmallImage": "https://www.vvapplianceparts.com/diagram/1/0/00004566/125/150",
+      "diagramLargeImage": "https://www.vvapplianceparts.com/diagram/1/0/00004566/680/900",
+      "partsCount": 20
+    },
+    {
+      "sectionName": "05 - Body Parts",
+      "diagramId": 51874,
+      "diagramSmallImage": "https://www.vvapplianceparts.com/diagram/1/0/00004567/125/150",
+      "diagramLargeImage": "https://www.vvapplianceparts.com/diagram/1/0/00004567/680/900",
+      "partsCount": 40
+    }
+  ]
+}

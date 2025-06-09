@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMI API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>DMI API Test</h1>
+    <button onclick="testDirectAPI()">Test Direct API (Will Fail - CORS)</button>
+    <button onclick="testProxyAPI()">Test Proxy API (Should Work)</button>
+    <button onclick="clearLog()">Clear Log</button>
+
+    <div id="log"></div>
+
+    <script>
+        const log = document.getElementById('log');
+
+        function addLog(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = message;
+            log.appendChild(div);
+        }
+
+        function clearLog() {
+            log.innerHTML = '';
+        }
+
+        async function testDirectAPI() {
+            addLog('Testing direct API call (expecting CORS error)...', 'info');
+
+            try {
+                const response = await fetch('https://dmidrs.com/dealers/dmirest/dmirest.php?format=json&resource=inventory&dealerid=118215&restcode=DL67AJ19M2R0J');
+                const data = await response.json();
+                addLog('Direct API Success: ' + JSON.stringify(data).substring(0, 200), 'success');
+            } catch (error) {
+                addLog('Direct API Error (Expected): ' + error.message, 'error');
+            }
+        }
+
+        async function testProxyAPI() {
+            addLog('Testing proxy API call...', 'info');
+
+            try {
+                const response = await fetch('/api/dmi-proxy/dealers/dmirest/dmirest.php?format=json&resource=inventory&dealerid=118215&restcode=DL67AJ19M2R0J');
+                addLog('Proxy Response Status: ' + response.status, response.ok ? 'success' : 'error');
+
+                const text = await response.text();
+                addLog('Response Preview: <pre>' + text.substring(0, 500) + '...</pre>', 'info');
+
+                try {
+                    const data = JSON.parse(text);
+                    addLog('Data parsed successfully! Items: ' + (Array.isArray(data) ? data.length : 'Not an array'), 'success');
+                } catch (e) {
+                    addLog('JSON Parse Error: ' + e.message, 'error');
+                }
+            } catch (error) {
+                addLog('Proxy API Error: ' + error.message, 'error');
+            }
+        }
+
+        // Test on load
+        window.onload = () => {
+            addLog('Page loaded. Click buttons to test API calls.', 'info');
+        };
+    </script>
+</body>
+
+</html>
