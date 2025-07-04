@@ -18,11 +18,11 @@ const DMI_CONFIG = {
 // Enhanced cache system
 let inventoryCache = null;
 let cacheTimestamp = null;
-const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes (increased from 5)
+const CACHE_DURATION = 60 * 60 * 1000; // 60 minutes - longer cache for slow APIs
 
 // Search cache to store recent search results
 const searchCache = new Map();
-const SEARCH_CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
+const SEARCH_CACHE_DURATION = 20 * 60 * 1000; // 20 minutes - longer search cache
 const MAX_SEARCH_CACHE_SIZE = 100;
 
 // Loading state
@@ -39,7 +39,7 @@ console.log(`DMI Base URL: ${DMI_CONFIG.BASE_URL}`);
 
 // Create axios instance with default config
 const apiClient = axios.create({
-    timeout: 60000,
+    timeout: 180000, // Increased to 3 minutes for slow APIs
     headers: {
         'Content-Type': 'application/json',
     }
@@ -259,8 +259,12 @@ const dmiApi = {
                 const url = buildUrl('inventory', params);
                 console.log('🌐 Fetching real inventory from DMI API...');
                 console.log('API URL:', url);
+                console.log('⏱️ This may take up to 3 minutes - please wait...');
 
+                const startTime = Date.now();
                 const response = await apiClient.get(url);
+                const endTime = Date.now();
+                console.log(`⚡ API responded in ${((endTime - startTime) / 1000).toFixed(2)} seconds`);
 
                 console.log('📡 API Response status:', response.status);
                 console.log('📡 API Response data type:', typeof response.data);

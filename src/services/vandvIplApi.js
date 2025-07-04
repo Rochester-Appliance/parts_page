@@ -17,7 +17,7 @@ console.log(`V&V IPL Base URL: ${IPL_CONFIG.BASE_URL}`);
 
 // Create axios instance
 const apiClient = axios.create({
-    timeout: 300000, // Increase to 5 minutes (300 seconds)
+    timeout: 600000, // Increased to 10 minutes (600 seconds) for very slow APIs
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -82,12 +82,18 @@ const vandvIplApi = {
                 ? `${IPL_CONFIG.BASE_URL}/get-diagrams`
                 : `${IPL_CONFIG.BASE_URL}/get-diagrams`;
 
+            console.log('⏱️ Fetching diagrams - this may take up to 10 minutes...');
+            const startTime = Date.now();
+
             const response = await apiClient.post(endpoint, {
                 username: IPL_CONFIG.USERNAME,
                 password: IPL_CONFIG.PASSWORD,
                 modelNumber: modelNumber,
                 modelId: modelId
             });
+
+            const endTime = Date.now();
+            console.log(`⚡ V&V API responded in ${((endTime - startTime) / 1000).toFixed(2)} seconds`);
 
             if (response.data && Array.isArray(response.data)) {
                 console.log(`✅ Found ${response.data.length} diagrams for model ${modelNumber}`);
@@ -122,6 +128,9 @@ const vandvIplApi = {
                 ? `${IPL_CONFIG.BASE_URL}/get-diagram-parts`
                 : `${IPL_CONFIG.BASE_URL}/get-diagram-parts`;
 
+            console.log('⏱️ Fetching diagram parts - this may take up to 10 minutes...');
+            const startTime = Date.now();
+
             const response = await apiClient.post(endpoint, {
                 username: IPL_CONFIG.USERNAME,
                 password: IPL_CONFIG.PASSWORD,
@@ -129,6 +138,9 @@ const vandvIplApi = {
                 modelId: modelId,
                 diagramId: diagramId.toString()
             });
+
+            const endTime = Date.now();
+            console.log(`⚡ V&V Parts API responded in ${((endTime - startTime) / 1000).toFixed(2)} seconds`);
 
             if (response.data && typeof response.data === 'object') {
                 const partsCount = Object.keys(response.data).length;
