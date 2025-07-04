@@ -4,8 +4,13 @@ import axios from 'axios';
 const DMI_CONFIG = {
     DEALER_ID: '118215',
     REST_CODE: 'DL67AJ19M2R0J',
-    BASE_URL: '/api/dmi-proxy/dealers/dmirest',
-    SANDBOX_URL: '/api/dmi-proxy/dealers_sb/dmirest',
+    // Use different URLs based on environment
+    BASE_URL: process.env.NODE_ENV === 'production'
+        ? 'https://api.allorigins.win/raw?url=https://dmidrs.com/dealers/dmirest'
+        : '/api/dmi-proxy/dealers/dmirest',
+    SANDBOX_URL: process.env.NODE_ENV === 'production'
+        ? 'https://api.allorigins.win/raw?url=https://dmidrs.com/dealers_sb/dmirest'
+        : '/api/dmi-proxy/dealers_sb/dmirest',
     USE_SANDBOX: false, // Set to true for testing
     USE_MOCK: false // Set to true to use mock data
 };
@@ -27,6 +32,10 @@ let loadingPromise = null;
 // Pre-indexed search data for faster lookups
 let searchIndex = null;
 let indexTimestamp = null;
+
+// Log which environment we're using
+console.log(`DMI API Environment: ${process.env.NODE_ENV || 'development'}`);
+console.log(`DMI Base URL: ${DMI_CONFIG.BASE_URL}`);
 
 // Create axios instance with default config
 const apiClient = axios.create({

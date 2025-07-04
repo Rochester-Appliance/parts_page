@@ -3,11 +3,17 @@ import partsCache from './partsCache';
 
 // V&V IPL API Configuration
 const IPL_CONFIG = {
-    BASE_URL: '/api/vandv-ipl', // Using our proxy
-    // BASE_URL: 'https://soapbeta.streamflow.ca/iplvandv', // Direct URL - CORS blocked!
+    // Use different URLs based on environment
+    BASE_URL: process.env.NODE_ENV === 'production'
+        ? 'https://api.allorigins.win/raw?url=https://soapbeta.streamflow.ca/iplvandv'
+        : '/api/vandv-ipl', // Using our local proxy in development
     USERNAME: 'M1945',
     PASSWORD: '9dVxdym69mNs3G8'
 };
+
+// Log which environment we're using
+console.log(`V&V IPL API Environment: ${process.env.NODE_ENV || 'development'}`);
+console.log(`V&V IPL Base URL: ${IPL_CONFIG.BASE_URL}`);
 
 // Create axios instance
 const apiClient = axios.create({
@@ -72,7 +78,11 @@ const vandvIplApi = {
         }
 
         try {
-            const response = await apiClient.post(`${IPL_CONFIG.BASE_URL}/get-diagrams`, {
+            const endpoint = process.env.NODE_ENV === 'production'
+                ? `${IPL_CONFIG.BASE_URL}/get-diagrams`
+                : `${IPL_CONFIG.BASE_URL}/get-diagrams`;
+
+            const response = await apiClient.post(endpoint, {
                 username: IPL_CONFIG.USERNAME,
                 password: IPL_CONFIG.PASSWORD,
                 modelNumber: modelNumber,
@@ -108,7 +118,11 @@ const vandvIplApi = {
         }
 
         try {
-            const response = await apiClient.post(`${IPL_CONFIG.BASE_URL}/get-diagram-parts`, {
+            const endpoint = process.env.NODE_ENV === 'production'
+                ? `${IPL_CONFIG.BASE_URL}/get-diagram-parts`
+                : `${IPL_CONFIG.BASE_URL}/get-diagram-parts`;
+
+            const response = await apiClient.post(endpoint, {
                 username: IPL_CONFIG.USERNAME,
                 password: IPL_CONFIG.PASSWORD,
                 modelNumber: modelNumber,
