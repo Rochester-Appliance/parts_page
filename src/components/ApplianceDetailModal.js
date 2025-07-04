@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Dialog,
     DialogTitle,
@@ -35,7 +35,11 @@ import {
     QrCode as QrCodeIcon,
     Build as BuildIcon,
     LocalOffer as OfferIcon,
+    Lightbulb as LightbulbIcon,
+    ShoppingCart as CartIcon,
 } from '@mui/icons-material';
+import CommonSymptoms from './CommonSymptoms';
+import { useCart } from '../contexts/CartContext';
 import { styled } from '@mui/material/styles';
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
@@ -71,6 +75,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const ApplianceDetailModal = ({ open, onClose, appliance }) => {
+    const { addToCart } = useCart();
+    const [commonSymptomsOpen, setCommonSymptomsOpen] = useState(false);
+
     if (!appliance) return null;
 
     const formatPrice = (price) => {
@@ -113,6 +120,27 @@ const ApplianceDetailModal = ({ open, onClose, appliance }) => {
             return 'TBD';
         }
         return dateString;
+    };
+
+    const handleAddToCart = () => {
+        addToCart(appliance, 1);
+        alert(`Added ${appliance.Description} to cart!`);
+    };
+
+    const getApplianceType = () => {
+        // Determine appliance type from category or description
+        const category = appliance.Category_Major?.toLowerCase() || '';
+        const description = appliance.Description?.toLowerCase() || '';
+
+        if (category.includes('wash') || description.includes('wash')) return 'Washing Machine';
+        if (category.includes('dry') || description.includes('dry')) return 'Dryer';
+        if (category.includes('refriger') || description.includes('refriger') || category.includes('fridge')) return 'Refrigerator';
+        if (category.includes('dishwash') || description.includes('dishwash')) return 'Dishwasher';
+        if (category.includes('range') || description.includes('range') || category.includes('oven')) return 'Range/Oven';
+        if (category.includes('microwave') || description.includes('microwave')) return 'Microwave';
+        if (category.includes('freezer') || description.includes('freezer')) return 'Freezer';
+
+        return appliance.Category_Major || 'Appliance';
     };
 
     const inventoryData = [
@@ -389,7 +417,19 @@ const ApplianceDetailModal = ({ open, onClose, appliance }) => {
                 </Grid>
             </DialogContent>
 
-            <DialogActions sx={{ p: 3, pt: 0 }}>
+            <DialogActions sx={{ p: 3, pt: 0, gap: 1 }}>
+                <Button
+                    onClick={() => setCommonSymptomsOpen(true)}
+                    color="secondary"
+                    variant="outlined"
+                    size="large"
+                    startIcon={<LightbulbIcon />}
+                >
+                    Common Symptoms
+                </Button>
+
+                <Box sx={{ flexGrow: 1 }} />
+
                 <Button
                     onClick={onClose}
                     color="primary"
@@ -399,6 +439,19 @@ const ApplianceDetailModal = ({ open, onClose, appliance }) => {
                 >
                     Close
                 </Button>
+
+                <Button
+                    onClick={handleAddToCart}
+                    color="success"
+                    variant="contained"
+                    size="large"
+                    sx={{ minWidth: 140 }}
+                    startIcon={<CartIcon />}
+                    disabled={getAvailabilityColor(appliance.Available, appliance.Has_Stock) === 'error'}
+                >
+                    Add to Cart
+                </Button>
+
                 <Button
                     color="primary"
                     variant="contained"
@@ -409,6 +462,14 @@ const ApplianceDetailModal = ({ open, onClose, appliance }) => {
                     Request Quote
                 </Button>
             </DialogActions>
+
+            {/* Common Symptoms Dialog */}
+            <CommonSymptoms
+                open={commonSymptomsOpen}
+                onClose={() => setCommonSymptomsOpen(false)}
+                applianceType={getApplianceType()}
+                modelNumber={appliance.Model_Number}
+            />
         </StyledDialog>
     );
 };

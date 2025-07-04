@@ -31,10 +31,18 @@ import {
     Inventory as InventoryIcon,
     Image as ImageIcon,
     ShoppingCart as CartIcon,
+    Lightbulb as LightbulbIcon,
+    AddShoppingCart as AddBulkIcon,
+    NotificationsActive as NotifyIcon,
 } from '@mui/icons-material';
 import vandvIplApi from '../services/vandvIplApi';
+import { useCart } from '../contexts/CartContext';
+import CommonSymptoms from './CommonSymptoms';
+import BulkAddDialog from './BulkAddDialog';
+import NotifyWhenAvailable from './NotifyWhenAvailable';
 
 const DiagramViewer = ({ modelNumber, modelId, onClose }) => {
+    const { addToCart } = useCart();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedTab, setSelectedTab] = useState(0);
@@ -42,6 +50,10 @@ const DiagramViewer = ({ modelNumber, modelId, onClose }) => {
     const [partsByDiagram, setPartsByDiagram] = useState({});
     const [selectedDiagram, setSelectedDiagram] = useState(null);
     const [zoomedImage, setZoomedImage] = useState(null);
+    const [commonSymptomsOpen, setCommonSymptomsOpen] = useState(false);
+    const [bulkAddOpen, setBulkAddOpen] = useState(false);
+    const [notifyDialogOpen, setNotifyDialogOpen] = useState(false);
+    const [selectedPartForNotify, setSelectedPartForNotify] = useState(null);
 
     useEffect(() => {
         if (modelNumber && modelId) {
@@ -91,6 +103,26 @@ const DiagramViewer = ({ modelNumber, modelId, onClose }) => {
         return { label: 'Out of Stock', color: 'error' };
     };
 
+    const handleAddToCart = (part) => {
+        addToCart(part, 1);
+        alert(`Added ${part.description} to cart!`);
+    };
+
+    const handleNotifyMeClick = (part) => {
+        setSelectedPartForNotify(part);
+        setNotifyDialogOpen(true);
+    };
+
+    const getApplianceType = () => {
+        // Try to determine appliance type from model number or other context
+        if (modelNumber?.toLowerCase().includes('wash')) return 'Washing Machine';
+        if (modelNumber?.toLowerCase().includes('dry')) return 'Dryer';
+        if (modelNumber?.toLowerCase().includes('fridge') || modelNumber?.toLowerCase().includes('refrig')) return 'Refrigerator';
+        if (modelNumber?.toLowerCase().includes('dish')) return 'Dishwasher';
+        if (modelNumber?.toLowerCase().includes('range') || modelNumber?.toLowerCase().includes('oven')) return 'Range/Oven';
+        return 'Appliance'; // Generic fallback
+    };
+
     if (!modelNumber || !modelId) {
         return (
             <Alert severity="warning">
@@ -122,10 +154,32 @@ const DiagramViewer = ({ modelNumber, modelId, onClose }) => {
         <Box sx={{ width: '100%', height: '100%' }}>
             {/* Header */}
             <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
-                <Typography variant="h6" component="div" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <BuildIcon color="primary" />
-                    Repair Diagrams - {modelNumber}
-                </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="h6" component="div" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <BuildIcon color="primary" />
+                        Repair Diagrams - {modelNumber}
+                    </Typography>
+
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                        <Button
+                            variant="outlined"
+                            startIcon={<LightbulbIcon />}
+                            onClick={() => setCommonSymptomsOpen(true)}
+                            size="small"
+                        >
+                            Common Symptoms
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            startIcon={<AddBulkIcon />}
+                            onClick={() => setBulkAddOpen(true)}
+                            disabled={partsArray.length === 0}
+                            size="small"
+                        >
+                            Bulk Add ({partsArray.length})
+                        </Button>
+                    </Box>
+                </Box>
             </Box>
 
             {/* Tabs for different diagram sections */}
@@ -240,16 +294,39 @@ const DiagramViewer = ({ modelNumber, modelId, onClose }) => {
                                                                 />
                                                             )}
                                                         </Box>
-                                                        {part.images.length > 0 && (
-                                                            <Button
-                                                                size="small"
-                                                                startIcon={<ImageIcon />}
-                                                                sx={{ mt: 1 }}
-                                                                onClick={() => setZoomedImage(part.images[0])}
-                                                            >
-                                                                View Part Image
-                                                            </Button>
-                                                        )}
+                                                        <Box sx={{ display: 'flex', gap: 1, mt: 1, flexWrap: 'wrap' }}>
+                                                            {part.images.length > 0 && (
+                                                                <Button
+                                                                    size="small"
+                                                                    startIcon={<ImageIcon />}
+                                                                    onClick={() => setZoomedImage(part.images[0])}
+                                                                >
+                                                                    View Image
+                                                                </Button>
+                                                            )}
+
+                                                            {stockStatus.color === 'error' ? (
+                                                                <Button
+                                                                    size="small"
+                                                                    variant="outlined"
+                                                                    startIcon={<NotifyIcon />}
+                                                                    onClick={() => handleNotifyMeClick(part)}
+                                                                    color="warning"
+                                                                >
+                                                                    Notify Me
+                                                                </Button>
+                                                            ) : (
+                                                                <Button
+                                                                    size="small"
+                                                                    variant="contained"
+                                                                    startIcon={<CartIcon />}
+                                                                    onClick={() => handleAddToCart(part)}
+                                                                    color="primary"
+                                                                >
+                                                                    Add to Cart
+                                                                </Button>
+                                                            )}
+                                                        </Box>
                                                     </>
                                                 }
                                             />
@@ -296,6 +373,32 @@ const DiagramViewer = ({ modelNumber, modelId, onClose }) => {
                     />
                 </DialogContent>
             </Dialog>
+
+            {/* Common Symptoms Dialog */}
+            <CommonSymptoms
+                open={commonSymptomsOpen}
+                onClose={() => setCommonSymptomsOpen(false)}
+                applianceType={getApplianceType()}
+                modelNumber={modelNumber}
+            />
+
+            {/* Bulk Add Dialog */}
+            <BulkAddDialog
+                open={bulkAddOpen}
+                onClose={() => setBulkAddOpen(false)}
+                parts={partsArray.filter(part => getStockStatus(part).color !== 'error')} // Only in-stock parts
+                modelNumber={modelNumber}
+            />
+
+            {/* Notify When Available Dialog */}
+            <NotifyWhenAvailable
+                open={notifyDialogOpen}
+                onClose={() => {
+                    setNotifyDialogOpen(false);
+                    setSelectedPartForNotify(null);
+                }}
+                item={selectedPartForNotify}
+            />
         </Box>
     );
 };

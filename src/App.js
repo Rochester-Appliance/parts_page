@@ -15,6 +15,11 @@ import {
     Button,
     Badge,
     Chip,
+    Menu,
+    MenuItem,
+    Dialog,
+    DialogTitle,
+    DialogContent,
 } from '@mui/material';
 import {
     Home as HomeIcon,
@@ -22,6 +27,12 @@ import {
     KeyboardArrowUp as ScrollTopIcon,
     Person as PersonIcon,
     ShoppingCart as ShoppingCartIcon,
+    Build as ServiceIcon,
+    AccountTree as HierarchyIcon,
+    Menu as MenuIcon,
+    Close as CloseIcon,
+    AdminPanelSettings as AdminIcon,
+    Receipt as OrderHistoryIcon,
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 
@@ -35,6 +46,10 @@ import CacheStatus from './components/CacheStatus';
 import PartsSearch from './components/PartsSearch';
 import Cart, { CartFab } from './components/Cart';
 import UserAuth from './components/UserAuth';
+import ServiceCallScheduler from './components/ServiceCallScheduler';
+import HierarchicalAccountManager from './components/HierarchicalAccountManager';
+import AdminConsole from './components/AdminConsole';
+import OrderHistory from './components/OrderHistory';
 
 // Services
 import dmiApi from './services/dmiApi';
@@ -108,7 +123,7 @@ const getDataSourceInfo = () => {
 function AppContent() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-    const { totalItems } = useCart();
+    const { totalItems, user, accountType } = useCart();
 
     // State management
     const [searchMode, setSearchMode] = useState('appliances');
@@ -123,6 +138,11 @@ function AppContent() {
     const [profileModalOpen, setProfileModalOpen] = useState(false);
     const [cartOpen, setCartOpen] = useState(false);
     const [authOpen, setAuthOpen] = useState(false);
+    const [serviceCallOpen, setServiceCallOpen] = useState(false);
+    const [accountManagerOpen, setAccountManagerOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [showAdminConsole, setShowAdminConsole] = useState(false);
+    const [orderHistoryOpen, setOrderHistoryOpen] = useState(false);
 
     // Preload inventory on component mount
     React.useEffect(() => {
@@ -280,6 +300,75 @@ function AppContent() {
                         sx={{ mr: 2 }}
                     />
 
+                    {user && (
+                        <Button
+                            color="inherit"
+                            startIcon={<OrderHistoryIcon />}
+                            onClick={() => setOrderHistoryOpen(true)}
+                            sx={{
+                                mr: 1,
+                                textTransform: 'none',
+                                fontSize: '0.95rem',
+                                display: { xs: 'none', sm: 'flex' }
+                            }}
+                        >
+                            Order History
+                        </Button>
+                    )}
+
+                    {user && (
+                        <Button
+                            color="inherit"
+                            startIcon={<ServiceIcon />}
+                            onClick={() => setServiceCallOpen(true)}
+                            sx={{
+                                mr: 1,
+                                textTransform: 'none',
+                                fontSize: '0.95rem',
+                                display: { xs: 'none', sm: 'flex' }
+                            }}
+                        >
+                            Schedule Service
+                        </Button>
+                    )}
+
+                    {user && accountType === 'parent' && (
+                        <Button
+                            color="inherit"
+                            startIcon={<HierarchyIcon />}
+                            onClick={() => setAccountManagerOpen(true)}
+                            sx={{
+                                mr: 1,
+                                textTransform: 'none',
+                                fontSize: '0.95rem',
+                                display: { xs: 'none', sm: 'flex' }
+                            }}
+                        >
+                            Manage Accounts
+                        </Button>
+                    )}
+
+                    {/* Admin Console - show for admin users */}
+                    {(user?.email?.includes('admin') || user?.email?.includes('support')) && (
+                        <Button
+                            color="inherit"
+                            startIcon={<AdminIcon />}
+                            onClick={() => setShowAdminConsole(true)}
+                            sx={{
+                                mr: 1,
+                                textTransform: 'none',
+                                fontSize: '0.95rem',
+                                display: { xs: 'none', sm: 'flex' },
+                                bgcolor: 'rgba(255, 255, 255, 0.1)',
+                                '&:hover': {
+                                    bgcolor: 'rgba(255, 255, 255, 0.2)',
+                                }
+                            }}
+                        >
+                            Admin Console
+                        </Button>
+                    )}
+
                     <Button
                         color="inherit"
                         startIcon={<PersonIcon />}
@@ -291,17 +380,48 @@ function AppContent() {
                             display: { xs: 'none', sm: 'flex' }
                         }}
                     >
-                        Account
+                        {user ? user.name || 'Account' : 'Sign In'}
                     </Button>
 
+                    {/* Mobile Menu */}
                     <IconButton
                         color="inherit"
-                        aria-label="account"
-                        onClick={() => setAuthOpen(true)}
+                        aria-label="menu"
+                        onClick={(e) => setAnchorEl(e.currentTarget)}
                         sx={{ display: { xs: 'flex', sm: 'none' }, mr: 1 }}
                     >
-                        <PersonIcon />
+                        <MenuIcon />
                     </IconButton>
+
+                    <Menu
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={() => setAnchorEl(null)}
+                    >
+                        <MenuItem onClick={() => { setAuthOpen(true); setAnchorEl(null); }}>
+                            <PersonIcon sx={{ mr: 1 }} /> {user ? 'Account' : 'Sign In'}
+                        </MenuItem>
+                        {user && (
+                            <MenuItem onClick={() => { setOrderHistoryOpen(true); setAnchorEl(null); }}>
+                                <OrderHistoryIcon sx={{ mr: 1 }} /> Order History
+                            </MenuItem>
+                        )}
+                        {user && (
+                            <MenuItem onClick={() => { setServiceCallOpen(true); setAnchorEl(null); }}>
+                                <ServiceIcon sx={{ mr: 1 }} /> Schedule Service
+                            </MenuItem>
+                        )}
+                        {user && accountType === 'parent' && (
+                            <MenuItem onClick={() => { setAccountManagerOpen(true); setAnchorEl(null); }}>
+                                <HierarchyIcon sx={{ mr: 1 }} /> Manage Accounts
+                            </MenuItem>
+                        )}
+                        {(user?.email?.includes('admin') || user?.email?.includes('support')) && (
+                            <MenuItem onClick={() => { setShowAdminConsole(true); setAnchorEl(null); }}>
+                                <AdminIcon sx={{ mr: 1 }} /> Admin Console
+                            </MenuItem>
+                        )}
+                    </Menu>
 
                     <IconButton
                         color="inherit"
@@ -481,11 +601,61 @@ function AppContent() {
                 onClose={() => setAuthOpen(false)}
             />
 
+            {/* Service Call Scheduler Modal */}
+            <ServiceCallScheduler
+                open={serviceCallOpen}
+                onClose={() => setServiceCallOpen(false)}
+            />
+
+            {/* Hierarchical Account Manager */}
+            {accountType === 'parent' && (
+                <Dialog open={accountManagerOpen} onClose={() => setAccountManagerOpen(false)} maxWidth="lg" fullWidth>
+                    <DialogTitle>
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <Typography variant="h6">Account Management</Typography>
+                            <IconButton onClick={() => setAccountManagerOpen(false)}>
+                                <CloseIcon />
+                            </IconButton>
+                        </Box>
+                    </DialogTitle>
+                    <DialogContent>
+                        <HierarchicalAccountManager />
+                    </DialogContent>
+                </Dialog>
+            )}
+
             {/* Floating Cart Button */}
             <CartFab onClick={() => setCartOpen(true)} />
 
             {/* Performance Monitor - Only show in development */}
             {process.env.NODE_ENV === 'development' && <CacheStatus />}
+
+            {/* Admin Console */}
+            <AdminConsole
+                open={showAdminConsole}
+                onClose={() => setShowAdminConsole(false)}
+            />
+
+            {/* Order History */}
+            <Dialog
+                open={orderHistoryOpen}
+                onClose={() => setOrderHistoryOpen(false)}
+                maxWidth="xl"
+                fullWidth
+                fullScreen={isMobile}
+            >
+                <DialogTitle>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Typography variant="h6">Order History</Typography>
+                        <IconButton onClick={() => setOrderHistoryOpen(false)}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Box>
+                </DialogTitle>
+                <DialogContent sx={{ p: 0 }}>
+                    <OrderHistory />
+                </DialogContent>
+            </Dialog>
         </Box>
     );
 }
