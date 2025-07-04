@@ -6,10 +6,10 @@ const DMI_CONFIG = {
     REST_CODE: 'DL67AJ19M2R0J',
     // Use different URLs based on environment
     BASE_URL: process.env.NODE_ENV === 'production'
-        ? 'https://api.allorigins.win/raw?url=https://dmidrs.com/dealers/dmirest'
+        ? 'https://thingproxy.freeboard.io/fetch/https://dmidrs.com/dealers/dmirest'
         : '/api/dmi-proxy/dealers/dmirest',
     SANDBOX_URL: process.env.NODE_ENV === 'production'
-        ? 'https://api.allorigins.win/raw?url=https://dmidrs.com/dealers_sb/dmirest'
+        ? 'https://thingproxy.freeboard.io/fetch/https://dmidrs.com/dealers_sb/dmirest'
         : '/api/dmi-proxy/dealers_sb/dmirest',
     USE_SANDBOX: false, // Set to true for testing
     USE_MOCK: false // Set to true to use mock data

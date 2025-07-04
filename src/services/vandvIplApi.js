@@ -5,7 +5,7 @@ import partsCache from './partsCache';
 const IPL_CONFIG = {
     // Use different URLs based on environment
     BASE_URL: process.env.NODE_ENV === 'production'
-        ? 'https://api.allorigins.win/raw?url=https://soapbeta.streamflow.ca/iplvandv'
+        ? 'https://thingproxy.freeboard.io/fetch/https://soapbeta.streamflow.ca/iplvandv'
         : '/api/vandv-ipl', // Using our local proxy in development
     USERNAME: 'M1945',
     PASSWORD: '9dVxdym69mNs3G8'
