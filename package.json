@@ -2,13 +2,16 @@
     "name": "rochester-appliance-parts-search",
     "version": "1.0.0",
     "description": "Rochester Appliance Parts Search Integration with DMI API",
+    "homepage": "https://rochester-appliance.github.io/parts_page",
     "main": "index.js",
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "dev": "react-scripts start"
+        "dev": "react-scripts start",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build"
     },
     "dependencies": {
         "@emotion/react": "^11.11.1",
@@ -38,6 +41,7 @@
     },
     "devDependencies": {
         "@types/lodash.debounce": "^4.0.9",
+        "gh-pages": "^6.3.0",
         "http-proxy-middleware": "^3.0.5"
     }
 }
